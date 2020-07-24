@@ -6,6 +6,79 @@ A functional behavior tree implementation in lua.
 
 Copy the `beehive` folder somewhere and start behaving.
 
+## Example
+
+Here is a high-level example of using these functions with custom behavior tree functions.
+
+```lua
+-- Ask some other system if this entity can see the player.
+local function canSeePlayer(entity, dt)
+  if lineOfSightSystem:canSeePlayer(entity) then
+    return 'success'
+  else
+    return 'failure'
+  end
+end
+
+-- Wait a bit of time before succeeding.
+local function waitRandom(low, hi)
+  local elapsed = 0
+  local span = love.math.random(lo, hi)
+
+  return function(entity, dt)
+    elapsed = elapsed + dt
+    if elapsed >= span then
+      elapsed = 0
+      span = love.math.random(lo, hi)
+      return 'success'
+    end
+    return 'running'
+  end
+end
+
+local function wanderOnPlatform(entity, dt)
+  -- Wandering on platform left as exercise to the reader.
+  -- Imagine it returns 'running' until the entity gets to
+  -- the edge of the platform. Then it returns 'success'.
+  return 'success'
+end
+
+local function shootBlaster(entity, dt)
+  -- Makes entity shoot, then always returns 'success'.
+  return 'success'
+end
+
+-- Walk to the edge of the platform, then wait a bit.
+local function walkAround()
+  return sequence({
+    wanderOnPlatform,
+    waitRandom(1, 3)
+  })
+end
+
+-- If the player is visible, then shoot them 3 times in rapid succession.
+local function shootPlayer()
+  return sequence({
+    canSeePlayer,
+    repeat(3, sequence({
+      shootBlaster,
+      waitRandom(.3, .3)
+    }))
+  })
+end
+
+-- Mostly spend your time walking around. If the player pops
+-- up, shoot them.
+return function()
+  return selector({
+    walkAround,
+    shootPlayer
+  })
+end
+```
+
+The returned function (at the end there) is a behavior tree function: it expects two arguments, `entity` and `dt`. Traverse this tree every frame to behave.
+
 ## Usage
 
 Every node in the behavior tree is a function that is invoked every time through the tree. This library provides the basic utility functions for behavior trees and some extra ones just to be nice.
