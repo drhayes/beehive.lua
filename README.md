@@ -83,6 +83,8 @@ The returned function (at the end there) is a behavior tree function: it expects
 
 Every node in the behavior tree is a function that is invoked every time through the tree. This library provides the basic utility functions for behavior trees and some extra ones just to be nice.
 
+**NOTE**: This library expects each entity to receive its own instance of the tree of functions. You can't create the tree of functions once and then re-use it across seven different entities. The provided functions each maintain some state across executions and their results can't be re-used.
+
 The main three are:
 
 * selector
