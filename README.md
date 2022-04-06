@@ -163,6 +163,8 @@ function enemyBrain()
 end
 
 function Enemy(x, y)
+  -- Each enemy gets its own copy of the tree because we call
+  -- the enemyBrain function here whenever we make a new one.
   local brain = enemyBrain()
   return {
     pos = {
