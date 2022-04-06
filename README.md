@@ -147,6 +147,57 @@ This function takes one argument, a behavior tree function.
 
 It will invoke its child function. If its result is `'success'`, this will return `'failure'`. If the result is `'failure'` this will return `'success'`. Otherwise, it returns the result received from its child function (hopefully the last case is `'running'`).
 
+## LÖVE example
+
+Using the most excellent [LÖVE](https://love2d.org) framework, you might do something like this:
+
+```lua
+-- This is the example function from above.
+-- It shoots the player when they're seen, but spends
+-- most of its time walking around.
+function enemyBrain()
+  return selector({
+    shootPlayer,
+    walkAround
+  })
+end
+
+function Enemy(x, y)
+  local brain = enemyBrain()
+  return {
+    pos = {
+      x = x,
+      y = y,
+    },
+
+    update = function(self, dt)
+      -- The instance of the entity is passed to the tree.
+      -- Any nodes have access to entity methods and properties.
+      brain(self, dt)
+    end,
+
+    draw = function(self)
+      -- Cool drawing code here...
+    end,
+  }
+end
+
+function love.load()
+  enemy1 = Enemy(3, 4)
+  enemy2 = Enemy(8, 11)
+end
+
+function love.update(dt)
+  enemy1:update(dt)
+  enemy2:update(dt)
+end
+
+function love.draw()
+  enemy1:draw()
+  enemy2:draw()
+end
+```
+
 ## Dev
 
 The unit tests require `busted`. The `Makefile` just calls `busted`.
