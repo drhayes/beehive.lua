@@ -157,8 +157,8 @@ Using the most excellent [LÖVE](https://love2d.org) framework, you might do som
 -- most of its time walking around.
 function enemyBrain()
   return selector({
-    shootPlayer,
-    walkAround
+    shootPlayer(),
+    walkAround()
   })
 end
 
