@@ -71,8 +71,8 @@ end
 -- up, shoot them.
 return function()
   return selector({
-    shootPlayer,
-    walkAround
+    shootPlayer(),
+    walkAround()
   })
 end
 ```
