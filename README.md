@@ -77,13 +77,13 @@ return function()
 end
 ```
 
-The returned function (at the end there) is a behavior tree function: it expects two arguments, `entity` and `dt`. Traverse this tree every frame to behave.
+The returned function (at the end there) is a behavior tree function: it expects two arguments, `entity` and `dt` (because the "leaf" functions expect `entity` and `dt`). Traverse this tree every frame to behave.
 
 ## Usage
 
 Every node in the behavior tree is a function that is invoked every time through the tree. This library provides the basic utility functions for behavior trees and some extra ones just to be nice.
 
-**NOTE**: This library expects each entity to receive its own instance of the tree of functions. You can't create the tree of functions once and then re-use it across seven different entities. The provided functions each maintain some state across executions and their results can't be re-used.
+**NOTE**: This library expects each brain to receive its own instance of the tree of functions. You can't create the tree of functions once and then re-use it across seven different entities. The provided functions each maintain some state across executions and their results can't be re-used.
 
 The main three are:
 
@@ -99,9 +99,9 @@ The nice-to-have ones are:
 
 Each of these will return one of `'success'`, `'failure'`, or `'running'` as strings after its execution.
 
-In beehive, a "behavior tree function" is a function that takes two arguments: `entity` and `dt`. When invoked, that function will return one of `'success'`, `'failure'`, or `'running'`.
+In beehive, a "behavior tree function" is a function that takes a variable number of arguments. When invoked, that function will return one of `'success'`, `'failure'`, or `'running'`.
 
-Since none of the below functions do anything with `entity` and `dt` you are free to use them for whatever you wish.
+Each of the functions takes variadic arguments, i.e. pass in anything you want and your child functions will receive them. Most of the examples stick with `entity` and `dt`, but you can use whatever you want.
 
 Each of the functions below, when run, returns a behavior tree function.
 
