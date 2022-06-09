@@ -53,4 +53,16 @@ describe('sequence', function()
     assert.are.equal(result, 'success')
     assert.are.equal(successCount, 3)
   end)
+
+  it('passes variadic args to its children', function()
+    local sum = 0
+    local function count(one, two, three)
+      sum = sum + one + two + three
+      return 'success'
+    end
+    local tree = sequence({ count, count })
+    tree(1, 2, 3)
+    assert.are.equal(sum, 12)
+  end)
+
 end)

@@ -79,4 +79,16 @@ describe('selector', function()
     assert.are.equal(failCount, 4)
     assert.are.equal(successCount, 2)
   end)
+
+  it('passes variadic args to its children', function()
+    local sum = 0
+    local function count(one, two, three)
+      sum = sum + one + two + three
+      return 'failure'
+    end
+    local tree = selector({ count, count })
+    tree(1, 2, 3)
+    assert.are.equal(sum, 12)
+  end)
+
 end)

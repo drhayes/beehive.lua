@@ -1,9 +1,9 @@
 return function(children)
   local index = 1
-  return function(entity, dt)
+  return function(...)
     while index <= #children do
       local current = children[index]
-      local result = current(entity, dt)
+      local result = current(...)
       if result == 'failure' then
         index = 1
         return 'failure'

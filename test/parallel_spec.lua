@@ -39,4 +39,15 @@ describe('parallel', function()
     assert.are.equal(successCount, 3)
     assert.are.equal(failCount, 1)
   end)
+
+  it('passes variadic args to its children', function()
+    local sum = 0
+    local function count(one, two, three)
+      sum = sum + one + two + three
+    end
+    local tree = parallel({ count, count })
+    tree(1, 2, 3)
+    assert.are.equal(sum, 12)
+  end)
+
 end)

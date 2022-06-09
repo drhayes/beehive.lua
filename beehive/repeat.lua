@@ -1,7 +1,7 @@
 return function(times, child)
   local count = 1
-  return function(entity, dt)
-    local result = child(entity, dt)
+  return function(...)
+    local result = child(...)
     if result == 'failure' then
       count = 1
       return 'failure'

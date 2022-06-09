@@ -48,5 +48,16 @@ describe('repeat', function()
       assert.are.equal(i, failCount)
     end
   end)
+
+  it('passes variadic args to its children', function()
+    local sum = 0
+    local function count(one, two, three)
+      sum = one + two + three
+    end
+    local tree = repeatIt(5, count)
+    tree(1, 2, 3)
+    assert.are.equal(sum, 6)
+  end)
+
 end)
 
